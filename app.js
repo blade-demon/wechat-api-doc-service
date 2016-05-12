@@ -25,7 +25,7 @@ app.use('/login', mp.login);
 
 app.use('/', function (req, res) {
   res.writeHead(200);
-  res.end('hello node api');
+  res.end('hello gamepoch!');
 });
 
 /**

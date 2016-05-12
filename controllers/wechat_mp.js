@@ -35,8 +35,8 @@ exports.reply = wechat(config.mp, wechat.text(function (message, req, res) {
     res.reply([{
       title: '来玩吧',
       description: 'PS4线下体验活动',
-      picurl: config.domain + '/assets/qrcode.jpg',
-      url: config.domain + '/login'
+      picurl: 'http://wechat.gamepoch.com/images/1-2.jpg',
+      url: 'http://wechattest.gamepoch.com/users/matchDetail_0502'
     }]);
     return;
   }
@@ -128,7 +128,7 @@ exports.reply = wechat(config.mp, wechat.text(function (message, req, res) {
 var tpl = ejs.compile(fs.readFileSync(path.join(VIEW_DIR, 'detail.html'), 'utf-8'));
 exports.detail = function (req, res) {
   var id = req.query.id || '';
-  var info = alpha.access(alpha.getKey(id));
+  var info = "detail";//alpha.access(alpha.getKey(id));
   if (info) {
     res.writeHead(200);
     res.end(tpl(info));
@@ -142,6 +142,6 @@ var loginTpl = ejs.compile(fs.readFileSync(path.join(VIEW_DIR, 'login.html'), 'u
 
 exports.login = function (req, res) {
   res.writeHead(200);
-  var redirect = 'http://nodeapi.diveintonode.org/wechat/callback';
+  var redirect = 'http://wechattest.gamepoch.com/wechat/callback';
   res.end(loginTpl({authorizeURL: oauth.getAuthorizeURL(redirect, 'state', 'snsapi_userinfo')}));
 };
