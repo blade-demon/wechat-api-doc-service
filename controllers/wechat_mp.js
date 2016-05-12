@@ -3,7 +3,7 @@ var path = require('path');
 
 var wechat = require('wechat');
 var ejs = require('ejs');
-var alpha = require('alpha');
+//var alpha = require('alpha');
 var VIEW_DIR = path.join(__dirname, '..', 'views');
 
 var config = require('../config');
@@ -12,7 +12,7 @@ var oauth = new wechat.OAuth(config.appid, config.appsecret);
 
 var List = require('wechat').List;
 List.add('view', [
-  ['没有找到相关API。输入模块名，方法名，事件名等都能获取到相关内容。\n回复{a}可以查看近期的NodeParty活动', function (info, req, res) {
+  ['没有找到相关API。输入模块名，方法名，事件名等都能获取到相关内容。\n回复{a}可以查看近期的活动', function (info, req, res) {
     res.nowait('暂无活动');
   }]
 ]);
@@ -31,22 +31,24 @@ exports.reply = wechat(config.mp, wechat.text(function (message, req, res) {
   console.log(message);
   var input = (message.Content || '').trim();
 
-  if (input === 'login') {
+  if (input === '活动') {
     res.reply([{
-      title: '登陆页面',
-      description: '去登陆',
+      title: '来玩吧',
+      description: 'PS4线下体验活动',
       picurl: config.domain + '/assets/qrcode.jpg',
       url: config.domain + '/login'
     }]);
     return;
   }
-
+/*
   if (input === '大王') {
     return res.reply("不要叫我大王，要叫我女王大人啊……");
   }
   if (input.length < 2) {
     return res.reply('内容太少，请多输入一点:)');
   }
+*/
+/*
   var data = alpha.search(input);
   var content = '';
   switch (data.status) {
@@ -111,9 +113,11 @@ exports.reply = wechat(config.mp, wechat.text(function (message, req, res) {
   res.reply('点连接进来的是吧！');
 }).event(function (message, req, res) {
   console.log(message);
+*/
+
   if (message.Event === 'subscribe') {
-    // 用户添加时候的消息
-    res.reply('谢谢添加Node.js公共帐号:)\n回复Node.js API相关关键词，将会得到相关描述。如：module, setTimeout等');
+    // 用户关注的时候自动回复的消息
+    res.reply('谢谢添加星游纪公共帐号:)\n回复"活动"可以获得最新的PS4相关信息！');
   } else if (message.Event === 'unsubscribe') {
     res.reply('Bye!');
   } else {

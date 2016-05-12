@@ -1,20 +1,18 @@
 var fs = require('fs');
 var http = require('http');
-var connect = require('connect');
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var config = require('./config');
 var mp = require('./controllers/wechat_mp');
 //var corp = require('wechat-enterprise');
 
-var app = connect();
-connect.logger.format('home', ':remote-addr :response-time - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :res[content-length]');
-app.use(connect.logger({
-  format: 'home',
-  stream: fs.createWriteStream(__dirname + '/logs/access.log')
-}));
-app.use(connect.query());
-app.use('/assets', connect.static(__dirname + '/assets', { maxAge: 86400000 }));
-app.use(connect.cookieParser());
-app.use(connect.session({secret: config.secret}));
+var app = express();
+
+app.use(express.query());
+app.use('/assets', express.static(__dirname + '/assets', { maxAge: 86400000 }));
+app.use(cookieParser());
+app.use(session({secret: config.secret}));
 
 app.use('/wechat/callback', mp.callback);
 app.use('/wechat', mp.reply);
